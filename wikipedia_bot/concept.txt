@@ -1,0 +1,10 @@
+- bot goes to Wikipedia and searches for a given term
+- gives back short note and url of the first result
+- if there's no results (it must inform about it)
+- there might option to choose which language to use (default=english)
+- when help - see all the commands that bot has (in a code alike format)
+
+e.g !wikipedia mariusz pudzianowski
+e.g !wikipedia [deutsch] mariusz pudzianowski
+
+
