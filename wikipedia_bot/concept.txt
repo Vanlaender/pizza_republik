@@ -1,9 +1,12 @@
-- bot goes to Wikipedia and searches for a given term
-- gives back short note and url of the first result
-- if there's no results (it must inform about it)
-- there might option to choose which language to use (default=english)
-- when help - see all the commands that bot has (in a code alike format)
-- bot must handle problems with arguments
+enhancements:
+- can add a list to choose from (for example list of 5 first examples)
+- if there is no such term, but can ask for other close term (is this what you are looking for?)
+
+smaller things:
+- maybe bot should also handle this kind of flags '--' e.g. '--french' or '--deutsch'
+
+potential problems:
+- !help can invoke help for every bot
 
 e.g !wikipedia mariusz pudzianowski
 e.g !wikipedia [deutsch] mariusz pudzianowski
