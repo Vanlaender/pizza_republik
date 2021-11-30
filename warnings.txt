@@ -1,0 +1,2 @@
+potential problems:
+- !help can invoke help for every bot

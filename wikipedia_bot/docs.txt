@@ -4,3 +4,6 @@ This bot helps you to quickly search for a term on Wikipedia.
 List of available commands:
 -!w or !wiki or !wikipedia
     - you can add a language flag e.g. -de to search for a term in a different language
+
+
+(This file can be later added to README.md)

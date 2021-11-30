@@ -1,8 +1,7 @@
-# bot.py
+# Wikibotia using wikipediaapi external module
 
 import os
 
-import discord
 import wikipediaapi as wi
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -40,7 +39,7 @@ async def w(ctx, *args):
         await ctx.send(page.summary[:end])
         await ctx.send('You can read more here: ' + page.fullurl)
     else:
-        await ctx.send(f"I'm sorry, I couldn't find it in this language -> {language}.")
+        await ctx.send(f"I'm sorry, I couldn't find it in this language -> {language}. Try different language or term.")
 
 
 bot.run(WIKIBOTIA_TOKEN)

@@ -1,14 +1,11 @@
 enhancements:
-- can add a list to choose from (for example list of 5 first examples)
+- can add a list to choose from (for example list of 5 first examples) (might be wikipedia-api limitation)
 - if there is no such term, but can ask for other close term (is this what you are looking for?)
 
 smaller things:
 - maybe bot should also handle this kind of flags '--' e.g. '--french' or '--deutsch'
 
-potential problems:
-- !help can invoke help for every bot
-
 e.g !wikipedia mariusz pudzianowski
-e.g !wikipedia [deutsch] mariusz pudzianowski
+e.g !w -de mariusz pudzianowski
 
 
