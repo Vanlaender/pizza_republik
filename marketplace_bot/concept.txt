@@ -1,0 +1,10 @@
+to add:
+- every product should be an object - with to sell/sold/rent/buy attribute
+- it can be saved into txt file (json format)
+
+
+enhancements:
+- adding db instead of json file
+
+potential problems:
+- idk how hosting will affect db or txt file
