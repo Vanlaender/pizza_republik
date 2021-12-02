@@ -1,10 +1,30 @@
-to add:
-- every product should be an object - with to sell/sold/rent/buy attribute
-- it can be saved into txt file (json format)
+how is it supposed to work:
+- only this bot will be allowed to text in marketplace channel (regular users are not allowed)
+- users will write to bot private messages with options !sell !buy !list
+    - !sell <what> <price>
+        - this will trigger a message in marketplace channel that an item is for sale added by @user
+    - !buy <what: id nr>
+        - this will trigger a message in marketplace channel that an item was bought by @user from @user
+    - !list all <or category e.g. books, agd>
+        - this will provide list of items for sale directly to the user
+    - (later) !delete <what: id nr> if an asking user is an owner of the product, it can delete the product from list
 
+
+# to do:
+- add class product
+- add sell method
+- add buy method (doesn't work if there is no such item)
+- save products to txt file (json format)
+- restrict access to marketplace for other users
 
 enhancements:
+- if user is not sure what to do, bot can try to understand the message (read message) and if it sees a word e.g. sell
+  then he explains how to sell a thing
+- how to handle list of items for sale. It shouldn't be too long
+- only a few categories should be allowed to keep better consistency
 - adding db instead of json file
+- in Product class id_itertools constantly increases its value, can it reuse deleted ids?
+- database can also remember sold items, for example after 30 days they will be removed from database
 
 potential problems:
 - idk how hosting will affect db or txt file
