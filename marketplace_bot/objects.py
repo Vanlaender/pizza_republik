@@ -5,73 +5,61 @@ import datetime
 from enum import Enum
 
 
-class Action(Enum):
-    SELL = 1
-    BUY = 2
-
-
 class Product:
     id_iteration = itertools.count()
 
-    def __init__(self, name: str, action: Action, price: float, amount: int = 1, category: str = 'no_subject'):
+    def __init__(self, name: str, price: float, owner: str, amount: int = 1, category: str = 'no_subject'):
         self.id = next(Product.id_iteration)
         self.name = name
-        self.action = action
         self.price = price
+        self.owner = owner  # later maybe this should be discord id type
         self.category = category
         self.amount = amount
         self.date = datetime.datetime.now()
-
-    def get_action(self):
-        return self.action
 
     def get_json(self):
         return [{
             "id": self.id,
             "name": self.name,
-            "action": self.action,
             "price": self.price,
+            "owner": self.owner,
             "amount": self.amount,
             "category": self.category,
             "date": self.date
         }]
 
     def __str__(self):
-        return f"id: {self.id}, name: {self.name}, action: {self.action}"
+        return f"id: {self.id}, name: {self.name}, price: {self.price}, owner: {self.owner}"
 
 
 class Inventory:
 
     def __init__(self):
-        self.to_sell = []
-        self.to_buy = []
+        self.for_sale = []
         self.load_inventory()
 
+    # later - load from file
     def load_inventory(self):
         pass
 
+    # later - save to file
     def save_inventory(self):
         pass
 
-    def update_inventory(self):  # not sure if save or update it's not redundant
-        pass
-
     def add_product(self, product: Product):
-        if product.get_action() == Action.SELL:
-            self.to_sell.append(product)
-        elif product.get_action() == Action.BUY:
-            self.to_buy.append(product)
-        else:
-            return -1
+        self.for_sale.append(product)
+
+    def del_product(self, name: str = None):
+        for product in self.for_sale:
+            if product.name == name:
+                self.for_sale.remove(product)
+                print('item sold')
+                break
 
     def show_inventory(self):
-        print('to sell')
-        for sell in self.to_sell:
+        print('Items for sale: ')
+        for sell in self.for_sale:
             print(sell)
 
-        print('to buy')
-        for buy in self.to_buy:
-            print(buy)
-
     def __str__(self):
-        return f"This is one and only inventory."
+        return f"This is my inventory"
