@@ -7,3 +7,6 @@ if __name__ == '__main__':
 
     print('pizza_republik')
 
+    abc = [1, 2, 3, 4, 5]
+    print(abc[0:])
+
