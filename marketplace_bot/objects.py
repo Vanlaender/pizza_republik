@@ -16,16 +16,6 @@ class Product:
         self.category = category
         self.date = datetime.datetime.now()
 
-    def get_json(self):
-        return [{
-            "id": self.id,
-            "name": self.name,
-            "price": self.price,
-            "owner": self.owner,
-            "category": self.category,
-            "date": self.date
-        }]
-
     def __str__(self):
         return f"id: {self.id}, name: {self.name}, price: {self.price}, owner: {self.owner}"
 

@@ -18,7 +18,8 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name='sell')
+@bot.command(name='sell', help="Puts your item in the marketplace for sale. After command 3 arguments must be "
+                               "provided -> !sell <what> <category> <price>")
 async def sell(ctx, what: str, category: str, price: float):
 
     # add a new product for sale
@@ -34,12 +35,13 @@ async def sell(ctx, what: str, category: str, price: float):
     await marketplace_channel.send(embed=embed)
 
 
-@bot.command(name='buy')
-async def buy(ctx, buy_id: int):
+@bot.command(name='buy', help="Buys an item from the marketplace. After command an ID of the item must be provided -> "
+                              "!buy <item_id>")
+async def buy(ctx, item_id: int):
 
     # check for product by ID
     for product in inventory.for_sale:
-        if product.id == buy_id:
+        if product.id == item_id:
             # get owner of the product
             owner = await bot.fetch_user(product.owner)
 
@@ -73,7 +75,8 @@ async def buy(ctx, buy_id: int):
         await ctx.send('To see list of available products with their IDs use *!show* command.')
 
 
-@bot.command(name='show')
+@bot.command(name='show', help="Shows n recently added product to the marketplace. After command specific number must "
+                               "be provided or 'all'")
 async def show(ctx, n: str = '5'):
 
     # for 'all' flag list all products, else take n last products
@@ -97,27 +100,29 @@ async def show(ctx, n: str = '5'):
     await ctx.send(embed=embed)
 
 
-@bot.command(name='want')
-async def want(ctx, thing: str, cost: float):
+@bot.command(name='want', help="Informs all users in the marketplace channel, that you are looking for something "
+                               "specific. After command 2 arguments must be provided -> !want <what> <cost>")
+async def want(ctx, what: str, cost: float):
 
     # inform marketplace channel
     marketplace_channel = bot.get_channel(916034270999507034)  # marketplace channel id
     await marketplace_channel.send(
-        f"{ctx.author.mention} is looking for {thing.title()}. \
+        f"{ctx.author.mention} is looking for {what.title()}. \
         Check your stuff, maybe you don't need it and you can sell it.")
 
     # prepare message
-    embed = discord.Embed(title=f'{thing.title()}',
+    embed = discord.Embed(title=f'{what.title()}',
                           description=f'cost around: {cost}',
                           color=discord.Colour.dark_gold())
     await marketplace_channel.send(embed=embed)
 
 
-@bot.command(name='delete')
-async def delete(ctx, id: int):
+@bot.command(name='delete', help="You can delete your product from the marketplace. After command an ID of the item "
+                                 "must be provided -> !delete <item_id>")
+async def delete(ctx, item_id: int):
     # check if such a product exists
     for product in inventory.for_sale:
-        if product.id == id:
+        if product.id == item_id:
             if product.owner == ctx.author.id:
                 # prepare message
                 embed = discord.Embed(title=f'{product.name.title()}',
@@ -145,10 +150,22 @@ async def delete(ctx, id: int):
         await ctx.send('To remove a product provide an ID of the product that you want to remove.')
         await ctx.send('To see list of available products with their IDs use *!show* command.')
 
-# @bot.event
-# async def on_message(message):
-#     await bot.process_commands(message)  # without this the whole script is dying
-#     print(message)
+
+@bot.event
+async def on_message(message):
+    # check if a message was sent on marketplace channel
+    if message.channel.id == 916034270999507034:
+        # if it was not a bot then delete the message and dm the author of the message
+        if message.author.id != 915224166825877556:
+            marketplace_channel = bot.get_channel(916034270999507034)  # marketplace channel id
+            await marketplace_channel.purge(limit=1)
+            await message.author.send(f"Hey you! It's me, Fleamarkt bot.\n" \
+                                      f"I would like to remind you that I'm the only one allowed to " \
+                                      f"text in the 'marketplace' channel.\n" \
+                                      f"If you want to make use of marketplace, communicate with me here.\n" \
+                                      f"Don't be shy to type *!help* if you don't know how I work :)\n")
+    else:
+        await bot.process_commands(message)
 
 # init inventory for the bot
 inventory = Inventory()

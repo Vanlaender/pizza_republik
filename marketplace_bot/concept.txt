@@ -18,21 +18,10 @@ how is it supposed to work:
 
 
 # to do:
-- delete message if user writes in marketplace channel (users can only write DMs to bot)
+-
 
-enhancements:
-- if user is not sure what to do, bot can try to understand the message (read message) and if it sees a word e.g. sell
-  then he explains how to sell a thing
-- if a user wants to write sth in the marketplace channel, the bot it pop up in the dms and it will instantly remove
-the message from the channel (don't allow users to message in the marketplace channel)
-- add !show by category
-- how to handle list of items for sale. It shouldn't be too long
-- only a few categories should be allowed to keep better consistency
-- adding db instead of json file - or just don't use database, cause bot will be constantly online
-- in Product class id_itertools constantly increases its value, can it reuse deleted ids?
-- add to help that if name has spaces then it must be provided in " "
-- database can also remember sold items, for example after 30 days they will be removed from database
-
-
-potential problems:
-- idk how hosting will affect db or txt file
+future enhancements:
+- add !show by category (maybe only a few categories should be allowed to keep better consistency)
+- can id_itertools reuse deleted ids?
+- add tracking of sold items (e.g. deleted after 30 days)
+- use database (mongodb) - this allows to store photos
