@@ -1,1 +1,31 @@
-Fleamarkt - allows users to sell & buy their stuff.
+Fleamarkt - allows users to sell & buy their unwanted stuff.
+
+Important!
+Communication with the bot is available only through DMs.
+On Marketplace channel only Fleamarkt is allowed to post.
+
+List of available commands:
+    - !sell <what> <category> <price> <currency>
+        - a user can put his item for sale. The user must provide item's name, category, price and currency.
+        - it triggers a message in the marketplace channel that an item is for sale, other users can see it now.
+    - !buy <item_ID>
+        - user can buy a product by providing its unique ID
+        - it triggers a message in the marketplace channel that a @user bought a product from @user
+        - the owner and buyer will be informed by the bot through DMs to take action to finalize transaction
+            sample messages:
+            - owner -> @buyer bought your product (name of the product). Prepare item and get in contact with @buyer.
+            - buyer -> you bought product from @buyer. Don't wait, get in contact with @buyer.
+    - !show <nr_last_added> or all
+        - this command provides a list of items for sale directly to the user
+            - user can specify a number of n last added products (by default 5) or show all products listed for sale
+    - !delete <what: id nr>
+        - if the command is invoked by a user who is an owner of the product, it will remove the product for the list
+    - !want <what> <cost> <currency>
+        - this will trigger a message that a @user wants to buy sth in the marketplace channel
+        - it allows users to communicate their needs
+
+future enhancements:
+- add !show by category (maybe only a few categories should be allowed to keep better consistency)
+- can id_itertools reuse deleted ids?
+- add tracking of sold items (e.g. deleted after 30 days)
+- use database (mongodb) - this allows to store photos

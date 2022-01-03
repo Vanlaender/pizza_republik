@@ -1,9 +1,9 @@
-Wikipedia Bot - also known as 'Wikibotia'
+Wikipedia Bot - also known as 'Wikibotia' - discord bot that searches Wikipedia for you.
 
 This bot helps you to quickly search for a term on Wikipedia.
+
 List of available commands:
 -!w or !wiki or !wikipedia
-    - you can add a language flag e.g. -de to search for a term in a different language
-
+    - you can add a language flag e.g. -de, -fr, -ru to search for a term in a different language. By default, it's english.
 
 (This file can be later added to README.md)

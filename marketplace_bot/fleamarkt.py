@@ -1,4 +1,4 @@
-# Fleamarkt - marketplace bot for discord community
+# Fleamarkt - marketplace bot for a discord guild.
 
 import os
 
@@ -12,6 +12,13 @@ FLEAMARKT_TOKEN = os.getenv('FLEAMARKT_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
 
+# marketplace channel and fleamarkt ID
+MARKETPLACE_ID = 916034270999507034
+FLEAMARKT_ID = 915224166825877556
+
+# create inventory for the bot
+inventory = Inventory()
+
 
 @bot.event
 async def on_ready():
@@ -20,17 +27,17 @@ async def on_ready():
 
 @bot.command(name='sell', help="Puts your item in the marketplace for sale. After command 3 arguments must be "
                                "provided -> !sell <what> <category> <price>")
-async def sell(ctx, what: str, category: str, price: float):
+async def sell(ctx, what: str, category: str, price: float, currency: str):
 
     # add a new product for sale
-    inventory.add_product(Product(what, price, ctx.author.id, category))
+    inventory.add_product(Product(what, price, ctx.author.id, category, currency))
     await ctx.send(f'You have successfully added a new product for sale!')
 
     # announce it in the marketplace channel
-    marketplace_channel = bot.get_channel(916034270999507034)  # marketplace channel id
+    marketplace_channel = bot.get_channel(MARKETPLACE_ID)
     await marketplace_channel.send(f'{ctx.author.mention} added {what.title()} for sale. Check it out!')
     embed = discord.Embed(title=f'{what.title()}',
-                          description=f'category: {category}, price: {price}',
+                          description=f'category: {category}, price: {price}, currency: {currency}',
                           color=discord.Colour.green())
     await marketplace_channel.send(embed=embed)
 
@@ -47,7 +54,8 @@ async def buy(ctx, item_id: int):
 
             # prepare message
             embed = discord.Embed(title=f'{product.name.title()}',
-                                  description=f'category: {product.category}, price: {product.price}',
+                                  description=f'category: {product.category}, price: {product.price}, '
+                                              f'currency: {product.currency}',
                                   color=discord.Colour.red())
             # inform buyer
             await ctx.send(f'You have successfully bought {product.name.title()}')
@@ -60,7 +68,7 @@ async def buy(ctx, item_id: int):
             await owner.send(f'Prepare item for sale and contact {ctx.author.mention} for payment!')
 
             # inform market
-            marketplace_channel = bot.get_channel(916034270999507034)  # marketplace channel id
+            marketplace_channel = bot.get_channel(MARKETPLACE_ID)
             await marketplace_channel.send(
                 f'$$$ {ctx.author.mention} have just bought {product.name.title()} from {owner.mention} $$$')
             await marketplace_channel.send(embed=embed)
@@ -95,24 +103,25 @@ async def show(ctx, n: str = '5'):
     else:
         for product in inventory.last_n_products(n):
             embed.add_field(name=f'{product.name.title()}',
-                            value=f'ID: {product.id}, category: {product.category}, price: {product.price}',
+                            value=f'ID: {product.id}, category: {product.category}, price: {product.price}, '
+                                  f'currency: {product.currency}',
                             inline=False)
     await ctx.send(embed=embed)
 
 
 @bot.command(name='want', help="Informs all users in the marketplace channel, that you are looking for something "
                                "specific. After command 2 arguments must be provided -> !want <what> <cost>")
-async def want(ctx, what: str, cost: float):
+async def want(ctx, what: str, cost: float, currency: str):
 
     # inform marketplace channel
-    marketplace_channel = bot.get_channel(916034270999507034)  # marketplace channel id
+    marketplace_channel = bot.get_channel(MARKETPLACE_ID)
     await marketplace_channel.send(
         f"{ctx.author.mention} is looking for {what.title()}. \
         Check your stuff, maybe you don't need it and you can sell it.")
 
     # prepare message
     embed = discord.Embed(title=f'{what.title()}',
-                          description=f'cost around: {cost}',
+                          description=f'cost around: {cost}, currency: {currency}',
                           color=discord.Colour.dark_gold())
     await marketplace_channel.send(embed=embed)
 
@@ -126,14 +135,15 @@ async def delete(ctx, item_id: int):
             if product.owner == ctx.author.id:
                 # prepare message
                 embed = discord.Embed(title=f'{product.name.title()}',
-                                      description=f'category: {product.category}, price: {product.price}',
+                                      description=f'category: {product.category}, price: {product.price}, '
+                                                  f'currency: {product.currency}',
                                       color=discord.Colour.red())
                 # inform user
                 await ctx.send('You have successfully removed your product from the marketplace.')
                 await ctx.send(embed=embed)
 
                 # inform marketplace
-                marketplace_channel = bot.get_channel(916034270999507034)  # marketplace channel id
+                marketplace_channel = bot.get_channel(MARKETPLACE_ID)
                 await marketplace_channel.send(
                     f"Item {product.name.title()} was removed from the marketplace by its owner.")
                 await marketplace_channel.send(embed=embed)
@@ -154,10 +164,10 @@ async def delete(ctx, item_id: int):
 @bot.event
 async def on_message(message):
     # check if a message was sent on marketplace channel
-    if message.channel.id == 916034270999507034:
+    if message.channel.id == MARKETPLACE_ID:
         # if it was not a bot then delete the message and dm the author of the message
-        if message.author.id != 915224166825877556:
-            marketplace_channel = bot.get_channel(916034270999507034)  # marketplace channel id
+        if message.author.id != FLEAMARKT_ID:
+            marketplace_channel = bot.get_channel(MARKETPLACE_ID)
             await marketplace_channel.purge(limit=1)
             await message.author.send(f"Hey you! It's me, Fleamarkt bot.\n" \
                                       f"I would like to remind you that I'm the only one allowed to " \
@@ -166,8 +176,5 @@ async def on_message(message):
                                       f"Don't be shy to type *!help* if you don't know how I work :)\n")
     else:
         await bot.process_commands(message)
-
-# init inventory for the bot
-inventory = Inventory()
 
 bot.run(FLEAMARKT_TOKEN)

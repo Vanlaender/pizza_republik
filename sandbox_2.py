@@ -1,4 +1,4 @@
-# wikibotia.py
+# sandbox_2.py
 # This bot checks some term in wikipedia and returns short note & url about inquiry
 
 import os

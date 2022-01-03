@@ -1,4 +1,4 @@
-# Wikibotia using wikipediaapi external module
+# Wikibotia - discord bot that searches Wikipedia for you.
 
 import os
 
@@ -17,7 +17,7 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name='w', aliases=['wiki', 'wikipedia'], help='Searches Wikipedia for you. Returns short note & url.')
+@bot.command(name='w', aliases=['wiki', 'wikipedia'], help='Searches a term in wikipedia.org. Returns a short note & url.')
 async def w(ctx, *args):
 
     # handling language flag
@@ -33,7 +33,7 @@ async def w(ctx, *args):
     term = ' '.join(args).title()
     page = wikipedia.page(term)
 
-    # get only first section of an article (sometimes they are too long)
+    # get only first section of an article
     if page.exists():
         end = page.summary.find('\n')
         await ctx.send(page.summary[:end])
