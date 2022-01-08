@@ -1,6 +1,8 @@
 import discord # Discord
+import os
 
 client = discord.Client()
+SILENCE_TOKEN = os.getenv('SILENCE_TOKEN')
 
 
 @client.event
@@ -36,6 +38,6 @@ async def on_message(message):
                         if role.name == "Attendee": # if they have attendee role they can continue
                             await member.edit(mute=True) # mutes the user if they are attendee
 
-client.run('')
+client.run('SILENCE_TOKEN')
 
 
