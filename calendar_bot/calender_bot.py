@@ -1,11 +1,13 @@
 import discord # discord
 from discord.ext import tasks # needed to utilize mindless task of checking reminders
 import datetime # needed to utilize the datetime objects and such
+import os
 
 
 client = discord.Client()
 global Events #global variable that can be accessed by the other functions -- stores the events
 Events = [] # Events is being assigned an empty list which will be filled when events are added
+CALENDER_TOKEN = os.getenv('CALENDER_TOKEN')
 
 
 @tasks.loop(seconds=10) #The amount of time the loop will slumber, until its time do its task
@@ -58,5 +60,5 @@ async def on_message(message):
             date_format = datetime.datetime(int(event[1][2]), int(event[1][1]), int(event[1][0])) # Create a date time object utilizing the input data stored in the Event
             await message.channel.send("Event: " + event[0] + " Date:" + date_format.strftime("%d-%b-%Y")) # Sends message with the datetime object formated to day-month(short) year
 
-client.run('')
+client.run(CALENDER_TOKEN)
 

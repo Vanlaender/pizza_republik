@@ -1,8 +1,10 @@
 import discord # Discord
+import os
 
 client = discord.Client()
 global password # Create global variable
 password = None # Assign it as null to start with
+KEYMASTER_TOKEN = os.getenv('KEYMASTER_TOKEN')
 
 
 @client.event
@@ -36,6 +38,6 @@ async def on_message(message):
             channel = client.get_channel(910494238876270604) # gets channel object for text channel general
             await channel.send("Welcome " + str(message.author) + " to the server!!!") # Prints welcome message that contains the name of the user who just got verified
 
-client.run('')
+client.run(KEYMASTER_TOKEN)
 
 
