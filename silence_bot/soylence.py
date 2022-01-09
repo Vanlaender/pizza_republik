@@ -38,6 +38,6 @@ async def on_message(message):
                         if role.name == "Attendee": # if they have attendee role they can continue
                             await member.edit(mute=True) # mutes the user if they are attendee
 
-client.run('SILENCE_TOKEN')
+client.run(SILENCE_TOKEN)
 
 
