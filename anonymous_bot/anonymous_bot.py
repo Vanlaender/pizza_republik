@@ -1,6 +1,8 @@
 import discord
+import os
 
 client = discord.Client()
+ANONYMOUS_TOKEN = os.getenv('ANONYMOUS_TOKEN')
 
 
 @client.event
@@ -18,6 +20,6 @@ async def on_message(message):
         channel = client.get_channel(927617333214740541)
         await channel.send(message.content[3:])
 
-client.run('')
+client.run(ANONYMOUS_TOKEN)
 
 
